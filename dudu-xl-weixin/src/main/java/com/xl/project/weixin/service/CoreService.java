@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.xl.project.weixin.api.accessToken.AccessTokenRedis;
+import com.xl.project.weixin.api.accessToken.AccessTokenThread;
 import com.xl.project.weixin.api.hitokoto.HitokotoUtil;
 import com.xl.project.weixin.api.tuling.TuLingUtil;
 import com.xl.project.weixin.api.tuling.bean.TuLingBean;
@@ -40,7 +42,13 @@ public class CoreService {
 	private TuLingApiKey tuLingApiKey;
 	private int line = 1;
 	private Map<String,String> map;
+	@Autowired
+	private AccessTokenRedis accessTokenRedis;
+
+
+
 	/**
+	 *
 	 * 处理微信发来的请求
 	 * 
 	 * @param request
@@ -91,7 +99,7 @@ public class CoreService {
 
 			// 文本消息
 			if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_TEXT)) {
-
+				System.out.println();
 				if(map==null){//判断map集合是否存在  不存在  再去获取
 					map = tuLingApiKey.obtApiKey();
 				}
@@ -102,6 +110,10 @@ public class CoreService {
 						apiKey = map.get("key"+line);
 						text = tuLingUtil.sendMessage(content,apiKey);
 					}
+
+				//String st =  accessTokenRedis.obtRedisAccessToken();
+				//System.out.println("redis数据库accessToken:"st);
+				System.out.println("线程内存accessToken:"+AccessTokenThread.accessTokenVal);;
 				respContent = text;
 
 				//respContent = "您发送的是文本消息！";
