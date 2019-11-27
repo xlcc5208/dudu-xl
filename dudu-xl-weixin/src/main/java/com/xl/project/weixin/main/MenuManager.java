@@ -111,7 +111,7 @@ public class MenuManager {
 		ViewButton btn31 = new ViewButton();
 		btn31.setName("个人中心");
 		btn31.setType("view");
-		btn31.setUrl("https://wallpaper.wispx.cn/random");
+		btn31.setUrl(MenuManager.REAL_URL + "oauth/weixin/user");
 
 		ViewButton btn32 = new ViewButton();
 		btn32.setName("版本消息");
