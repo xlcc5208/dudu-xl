@@ -15,20 +15,22 @@ public class AccessTokenThread extends Thread {
         while(true){
 
             try {
+                //System.out.println("开始获取");
                 accessTokenVal = getAccessTokenVal();
-                Thread.sleep(5000);
+                System.out.println("成功获取:"+accessTokenVal);
+                Thread.sleep(1000*60*120);
+                System.out.println("我又运行了");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
     }
 
-
     public String getAccessTokenVal(){
         String accessToken = ACCESS_TOKEN_URL.replace("APPID", MenuManager.appId).replace("APPSECRET",MenuManager.appSecret);
         JSONObject jsonObject = WeixinUtil.httpRequest(accessToken,"GET",null);
-        accessToken = (String) jsonObject.get("access_token");
-        return accessToken;
+        String accessToken01 = (String) jsonObject.get("access_token");
+        return accessToken01;
     }
 
 

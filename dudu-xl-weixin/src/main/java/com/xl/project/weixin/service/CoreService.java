@@ -13,6 +13,7 @@ import com.xl.project.weixin.api.accessToken.AccessTokenThread;
 import com.xl.project.weixin.api.hitokoto.HitokotoUtil;
 import com.xl.project.weixin.api.tuling.TuLingUtil;
 import com.xl.project.weixin.api.tuling.bean.TuLingBean;
+import com.xl.project.weixin.api.userInfo.UserInfoService;
 import com.xl.project.weixin.bean.resp.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,6 +45,9 @@ public class CoreService {
 	private Map<String,String> map;
 	@Autowired
 	private AccessTokenRedis accessTokenRedis;
+	@Autowired
+	private UserInfoService userInfoService;//收集微信个人信息的对象
+
 
 
 
@@ -140,7 +144,10 @@ public class CoreService {
 				String eventType = requestMap.get("Event");
 				// 订阅
 				if (eventType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE)) {
-					
+
+					System.out.println(fromUserName);
+					userInfoService.userInfo(fromUserName);
+
 					respContent = "欢迎关注微信公众号";
 				}
 				// 取消订阅

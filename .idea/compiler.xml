@@ -18,6 +18,10 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="dudu-xl-admin" options="-parameters" />
+      <module name="dudu-xl-common" options="-parameters" />
+      <module name="dudu-xl-mapper" options="-parameters" />
+      <module name="dudu-xl-pojo" options="-parameters" />
+      <module name="dudu-xl-service" options="-parameters" />
       <module name="dudu-xl-weixin" options="-parameters" />
     </option>
   </component>
