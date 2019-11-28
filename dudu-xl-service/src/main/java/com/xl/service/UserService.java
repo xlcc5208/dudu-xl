@@ -1,6 +1,7 @@
 package com.xl.service;
 
 import com.xl.po.User;
+import org.apache.ibatis.annotations.Select;
 
 public interface UserService {
 
@@ -30,4 +31,14 @@ public interface UserService {
      * @return
      */
     int updateByPrimaryKeySelective(User record);
+
+    /**
+     * 判断发单的角色
+     * @param openid
+     * @return
+     */
+    User selectByOpenid(String openid);
+
+
+
 }

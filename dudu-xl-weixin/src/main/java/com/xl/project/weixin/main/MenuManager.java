@@ -25,7 +25,7 @@ public class MenuManager {
 
  */
 	
-	public final static String REAL_URL="http://bbtnxj.natappfree.cc/"; //个人花生壳
+	public final static String REAL_URL="http://gh367u.natappfree.cc/"; //个人花生壳
 	//public final static String REAL_URL = "http://wxmobsa.yidatec.com/weixin/"; //正式号服务器	
 	
 	public final static String appId="wx6c5c662812eb61c8";
@@ -82,7 +82,7 @@ public class MenuManager {
 		ViewButton btn11 = new ViewButton();
 		btn11.setName("发布会议");
 		btn11.setType("view");
-		btn11.setUrl("https://wallpaper.wispx.cn/random");
+		btn11.setUrl(MenuManager.REAL_URL +"oauth/weixin/MeetingPub");
 		
 		
 //-------------------------------------------------------

@@ -50,4 +50,15 @@ public class UserServiceImpl implements UserService {
     public int updateByPrimaryKeySelective(User record) {
         return userMapper.updateByPrimaryKeySelective(record);
     }
+
+    /**
+     * 判断发单的角色
+     * @param openid
+     * @return
+     */
+    @Override
+    public User selectByOpenid(String openid) {
+        return userMapper.selectByOpenid(openid);
+
+    }
 }

@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface UserMapper {
     int deleteByPrimaryKey(String id);
@@ -41,6 +43,16 @@ public interface UserMapper {
      */
     @Update("update user set wid=#{wid} where email=#{email}")
     int updateByEmail(Integer wid,String email);
+
+    /**
+     * 根据weiuser中openid  查询得到user对象
+     * @param openid
+     * @return
+     */
+    @Select("SELECT * FROM `user` WHERE wid=(SELECT id FROM weiuser WHERE openid=#{openid})")
+    User selectByOpenid(String openid);
+
+
 
 
 
