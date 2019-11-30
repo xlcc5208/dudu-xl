@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 @RequestMapping("user")
 public class UserController {
@@ -38,6 +40,38 @@ public class UserController {
         System.out.println(user);
         int num = userService.updateByPrimaryKeySelective(user);
         return num+"";
+    }
+
+    /**
+     * 转发登录页面
+     * @return
+     */
+    @RequestMapping("toLogin") // /user/toLogin
+    public String toLogin(HttpServletRequest request){
+        String wid = request.getParameter("wid");
+        request.setAttribute("wid",wid);
+        return "weixin/login";
+    }
+
+    /**
+     * 转发无权限页面
+     * @return
+     */
+    @RequestMapping("toUnauth") // /user/toUnauth
+    public String toUnauth(){
+        return "weixin/unauth";
+    }
+
+
+    /**
+     * 转发抢单页面
+     * @return
+     */
+    @RequestMapping("toMeetingGrad") // /user/toMeetingGrad
+    public String toMeetingGrad(HttpServletRequest request){
+        String uid = request.getParameter("uid");
+        request.setAttribute("uid",uid);
+        return "weixin/meetingGrad/meetingGrad";
     }
 
 

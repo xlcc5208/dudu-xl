@@ -38,6 +38,19 @@ public class MeetingPubController {
         return  meetingPubService.selectMeetigPubByUid(uid);
     }
 
+    /**
+     * 可抢单列表
+     * @param uid
+     * @param tname
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("gradList") //  meetingPub/gradList
+    public List<MeetingPub> selectGradList(@RequestParam("uid") String uid,
+                                           @RequestParam("tname") String tname){
+
+        return meetingPubService.selectGradList(uid,tname);
+    }
 
 
 

@@ -44,6 +44,16 @@ public class MeetingPubServiceImpl implements MeetingPubService {
         return meetingPubMapper.selectMeetigPubByUid(uid);
     }
 
+    @Override
+    public List<MeetingPub> selectGradList(String uid, String tname) {
+        return meetingPubMapper.selectGradList(uid,tname);
+    }
+
+    @Override
+    public List<MeetingPub> selectMyGrabListByUid(String uid) {
+        return meetingPubMapper.selectMyGrabListByUid(uid);
+    }
+
     /**
      * 根据会议召开时间  规律生成 pcode
      * @param ptime

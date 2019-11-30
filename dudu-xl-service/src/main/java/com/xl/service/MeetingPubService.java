@@ -17,4 +17,20 @@ public interface MeetingPubService {
      */
     List<MeetingPub> selectMeetigPubByUid(String uid);
 
+
+    /**
+     * 查询可抢单列表
+     * @return
+     */
+    List<MeetingPub> selectGradList(String uid,String tname);
+
+
+    /**
+     * 查询我的抢单列表
+     *
+     * @param uid 抢单人的uid
+     * @return
+     */
+    List<MeetingPub> selectMyGrabListByUid(String uid);
+
 }

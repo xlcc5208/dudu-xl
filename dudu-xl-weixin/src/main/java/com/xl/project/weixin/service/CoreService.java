@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.xl.po.User;
+import com.xl.po.Weiuser;
 import com.xl.project.weixin.api.accessToken.AccessTokenRedis;
 import com.xl.project.weixin.api.accessToken.AccessTokenThread;
 import com.xl.project.weixin.api.hitokoto.HitokotoUtil;
@@ -15,6 +17,8 @@ import com.xl.project.weixin.api.tuling.TuLingUtil;
 import com.xl.project.weixin.api.tuling.bean.TuLingBean;
 import com.xl.project.weixin.api.userInfo.UserInfoService;
 import com.xl.project.weixin.bean.resp.*;
+import com.xl.service.UserService;
+import com.xl.service.WeiuserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +34,7 @@ import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
 import com.thoughtworks.xstream.io.xml.XppDriver;
 
 import net.sf.json.JSONObject;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Service
@@ -40,16 +45,20 @@ public class CoreService {
 	@Autowired
 	private HitokotoUtil hitokotoUtil;//一言API
 	@Autowired
+	private AccessTokenRedis accessTokenRedis;//从获取redis中获取accesstoken
+	@Autowired
+	private UserInfoService userInfoService;//收集微信个人信息的对象
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private WeiuserService weiuserService;
+
+
+	//获取图灵机器人id
+	@Autowired
 	private TuLingApiKey tuLingApiKey;
 	private int line = 1;
 	private Map<String,String> map;
-	@Autowired
-	private AccessTokenRedis accessTokenRedis;
-	@Autowired
-	private UserInfoService userInfoService;//收集微信个人信息的对象
-
-
-
 
 	/**
 	 *
@@ -160,8 +169,58 @@ public class CoreService {
 					String eventKey = requestMap.get("EventKey");
 
 					if (eventKey.equals("10")) {
-						respContent = "会议抢单！";
+						List<Article> articleList = new ArrayList<Article>();
+						// 单图文消息
+						Article article = new Article();
+						User user = userService.selectByOpenid(fromUserName);
+						if (user==null){
+							Weiuser weiuser = weiuserService.selectByOpenid(fromUserName);
+							//标题
+							article.setTitle("您还未登录");
+							//描述
+							article.setDescription("该功能需要登录才能使用,请点此链接登录.");
+							//图文显示地址
+							article.setPicUrl(
+									"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575037778660&di=e251131acd6b075e697d3c8ae68baf33&imgtype=0&src=http%3A%2F%2Fk.zol-img.com.cn%2Fideapad%2F6103%2Fa6102130_s.jpg");
+							//跳转地址
+							article.setUrl(MenuManager.REAL_URL+"user/toLogin?wid="+weiuser.getId());
 
+
+						}else {
+							if (user.getRid()==1){//发单组
+								//标题
+								article.setTitle(user.getName()+"您好,您是发单组,暂无权限使用此功能");
+								//描述
+								article.setDescription("该功能只有抢单组才能使用");
+								//图文显示地址
+								article.setPicUrl(
+										"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=490157971,2458011687&fm=26&gp=0.jpg");
+								//跳转地址
+								article.setUrl(MenuManager.REAL_URL+"user/toUnauth");
+							}else {//抢单组
+								//标题
+								article.setTitle(user.getName()+"您好,欢迎使用抢单功能");
+								//描述
+								article.setDescription("抢单教程-->");
+								//图文显示地址
+								article.setPicUrl(
+										"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575039216490&di=c7e205ec49f7c9bc8207d58193fbc042&imgtype=0&src=http%3A%2F%2Fimg.11665.com%2Fimg06_p%2Fi6%2FT1t6jEXkhXXXa2cgnb_093824.jpg");
+								//跳转地址
+								article.setUrl(MenuManager.REAL_URL+"user/toMeetingGrad?uid="+user.getId());
+							}
+						}
+
+						articleList.add(article);
+						// 设置图文消息个数
+						newsMessage.setArticleCount(articleList.size());
+						// 设置图文消息
+						newsMessage.setArticles(articleList);
+						// 将图文消息对象转换为XML字符串
+						respMessage = MessageUtil.newsMessageToXml(newsMessage);
+						return respMessage;
+
+
+						//respContent = "会议抢单！";
 					}else if(eventKey.equals("30")){
 						String str = hitokotoUtil.sendMessage();
 						respContent = str;
@@ -170,17 +229,20 @@ public class CoreService {
 						respContent = "联系我们";
 					}
 
-					else if (eventKey.equals("70")) {
+					else if (eventKey.equals("10")) {
 
 						List<Article> articleList = new ArrayList<Article>();
 						
 						// 单图文消息
 						Article article = new Article();
-						article.setTitle("标题");
-						article.setDescription("描述内容");
-						article.setPicUrl(
-								"图片");
-						article.setUrl("跳转连接");
+						//标题
+						article.setTitle("青青壁纸");
+						//描述
+						article.setDescription("随机壁纸");
+						//图文显示地址
+						article.setPicUrl("https://www.baidu.com/img/superlogo_c4d7df0a003d3db9b65e9ef0fe6da1ec.png?where=super");
+						//跳转地址
+						article.setUrl("https://wallpaper.wispx.cn/random");
 
 						
 						articleList.add(article);						
