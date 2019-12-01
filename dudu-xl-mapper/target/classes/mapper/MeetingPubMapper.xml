@@ -174,8 +174,9 @@
         select pub.*,
         grab.id,grab.pid,grab.remark as remark1,grab.uid as uid1,grab.grabStatus
         from meetingpub pub
-        LEFT JOIN meetinggrab grab on pub.id=grab.pid
-        where grab.uid=1
+        LEFT JOIN meetinggrab grab
+        on pub.id=grab.pid
+        where grab.uid=#{uid}
 		ORDER BY pub.pcode desc
 
   </select>

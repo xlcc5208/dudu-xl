@@ -25,4 +25,8 @@ public class MeetingGrab implements Serializable {
     //状态 0无效 1有效
     private Short status;
 
+
+    //一对一关联
+    private User user;
+
 }

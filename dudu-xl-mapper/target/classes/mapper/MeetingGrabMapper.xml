@@ -125,4 +125,30 @@
       status = #{status,jdbcType=SMALLINT}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+
+  <!--
+   据会议发布ID查询抢单人列表信息
+   List<MeetingGrab> selectGrabListByPid(String pid);
+   -->
+
+  <select id="selectGrabListByPid" resultMap="selectGrabListByPidResultMap">
+
+    SELECT u.`name`,u.province,u.city,grab.* FROM meetinggrab grab
+    LEFT JOIN user u
+    on grab.uid=u.id
+    WHERE grab.pid=#{pid}
+    ORDER BY grab.createDate asc
+  </select>
+
+  <resultMap id="selectGrabListByPidResultMap" type="com.xl.po.MeetingGrab" extends="BaseResultMap">
+
+    <association property="user">
+      <result property="name" column="name"></result>
+      <result property="province" column="province"></result>
+      <result property="city" column="city"></result>
+    </association>
+
+  </resultMap>
+
+
 </mapper>

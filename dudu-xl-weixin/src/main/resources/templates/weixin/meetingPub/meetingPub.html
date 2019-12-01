@@ -86,7 +86,7 @@
                         "<div style='white-space: nowrap;overflow: hidden;text-overflow:ellipsis;display: block;color: #777777;font-size:16px;padding-top:1px'>" +
                         remark + " / " + dateCurr + "</div></div>" +
                         "<div style='width: 30%;float: right;'>" +
-                        "<button class='able-btn' >选择讲者</button></div></div>";
+                        "<button class='able-btn' onclick='chooseGrabList(\""+msg[i].id+"\")'>选择讲者</button></div></div>";
                     }
                     $("#two").append(appendHtml);
 
@@ -95,13 +95,24 @@
                 }
             });
 
-
-
         }
+        /**
+         *选择讲者
+         *
+         * */
+       function chooseGrabList(pid) {
+
+           var uid = $("#uid").val();
+
+            var url="/meetingPub/chooseGrabToPage?uid="+uid+"&pid="+pid;
+            window.location.href=url;
+
+
+       }
+
+
         //会议发布
         function subMeetingPub(){
-
-
 
             /**
              * 非空判断
@@ -136,12 +147,7 @@
 
                     }
                 }
-                
-                
             })
-
-
-
         }
 
     </script>
